@@ -1,0 +1,221 @@
+#-----------------------------------#
+#		        				    #
+#            CREATEWORLD 	        #
+#								  	#
+#-----------------------------------#
+
+#Author: SpyCraftPvP
+#Version: 1.1
+#Requirements: Multiverse-Core and VoidWorld
+
+#Commands:
+
+# /createworld help | <name> <type>
+# /deleteworld <name>
+# /worldoptions <name>
+
+#Permissions:
+
+# createworld.create
+# deleteworld.delete
+# worldoptions.options
+
+#Messages:
+
+options:
+
+	#General
+
+	prefix: &8[&bCREATE-WORLD&8]
+
+	no-permissions: &cNo tienes permisos.
+
+	usage: &b/createworld <world-name>
+	
+	#Help
+	
+	mundos: &bMUNDOS
+	
+	plano: &7- &bPLANO
+	
+	vacio: &7- &bVACIO
+	
+	normal: &7- &bNORMAL
+	
+	#Barras
+	
+	barras: &7&m--------------------
+	
+	#World
+	
+	inombre: &cNecesitas indicar el nombre del mundo.
+	
+	itipo: &cNecesitas indicar el tipo mundo.
+	
+	mundoc: &aMundo %arg-1%fue creado correctamente. &b(TIPO: %arg-2%)
+	
+	mundot: &aTeletransportado a: %arg-1%. &b(TIPO: %arg-2%)
+	
+	mundoe: &aMundo eliminado correctamente.
+
+#CODE
+
+command /createworld [<text>] [<text>]:
+	permission: createworld.create
+	permission message: {@prefix} {@no-permissions}
+	executable by: players and console
+	usage: {@prefix} {@usage}
+	trigger:
+		if arg 1 is not set:
+			send "{@barras}"
+			send "{@prefix} {@inombre}"
+			send "{@barras}"
+			stop
+		if arg 1 is "help":
+			send "{@barras}"
+			send "              {@mundos}"
+			send ""
+			send "{@plano}"
+			send "{@vacio}"
+			send "{@normal}"
+			send ""
+			send "{@barras}"
+			stop
+		if arg 2 is not set:
+			send "{@barras}"
+			send "{@prefix} {@itipo}."
+			send "{@barras}"
+		if arg 2 is "plano":
+			make console execute command "/mv create %arg-1% normal -t flat"
+			wait 1 second
+			send "{@barras}"
+			send "{@prefix} {@mundoc}"
+			send "{@barras}"
+			wait 1 second
+			make player execute command "/mv tp %arg-1%"
+			send "{@barras}"
+			send "{@prefix} {@mundot}"
+			send "{@barras}"
+			stop
+		if arg 2 is "vacio":
+			make console execute command "/mv create %arg-1% normal -g VoidWorld"
+			wait 1 second
+			send "{@barras}"
+			send "{@prefix} {@mundoc}"
+			send "{@barras}"	
+			wait 1 second
+			make player execute command "/mv tp %arg-1%"
+			make player execute command "/mv confirm"
+			send "{@barras}"
+			send "{@prefix} {@mundot}"
+			send "{@barras}"
+			stop
+		if arg 2 is "normal":
+			make console execute command "/mv create %arg-1% normal"
+			wait 1 second
+			send "{@barras}"
+			send "{@prefix} {@mundoc}"
+			send "{@barras}"	
+			wait 1 second
+			make player execute command "/mv tp %arg-1%"
+			send "{@barras}"
+			send "{@prefix} {@mundot}"
+			send "{@barras}"
+			stop
+											
+command /deleteworld [<text>]:
+	permission: deleteworld.delete
+	permission message: {@prefix} {@no-permissions}
+	executable by: players and console
+	usage: {@prefix} {@usage}
+	trigger:
+		if arg 1 is not set:
+			send "{@barras}"
+			send "{@prefix} {@inombre}"
+			send "{@barras}"
+		if arg 1 is set:
+			make console execute command "mv delete %arg-1%"
+			make console execute command "mv confirm"
+			wait 1 second
+			send "&1{@barras}"
+			send "{@prefix} {@mundoe}"
+			send "&2{@barras}"	
+			stop
+			
+command /worldoptions [<text>]:
+	permission: worldoptions.options
+	permission message: {@prefix} {@no-permissions}
+	executable by: players
+	trigger:
+		if arg 1 is not set:
+			send "{@barras}"
+			send "{@prefix} {@inombre}"
+			send "{@barras}"
+			stop
+		if arg 1 is set:
+			open chest with 7 rows named "&bWORLD %arg 1% &8[&bOPTIONS&8]" to player 
+			format slot 11 of player with book named "&bAnimals" to close
+			format slot 15 of player with book named "&bMonsters" to close
+			format slot 0 of player with gray glass named "" to close
+			format slot 1 of player with gray glass named "" to close
+			format slot 2 of player with gray glass named "" to close
+			format slot 3 of player with gray glass named "" to close
+			format slot 4 of player with gray glass named "" to close
+			format slot 5 of player with gray glass named "" to close
+			format slot 6 of player with gray glass named "" to close
+			format slot 7 of player with gray glass named "" to close
+			format slot 8 of player with gray glass named "" to close
+			format slot 9 of player with gray glass named "" to close
+			format slot 10 of player with gray glass named "" to close
+			format slot 12 of player with gray glass named "" to close
+			format slot 13 of player with gray glass named "" to close
+			format slot 14 of player with gray glass named "" to close
+			format slot 16 of player with gray glass named "" to close
+			format slot 17 of player with gray glass named "" to close
+			format slot 18 of player with gray glass named "" to close
+			format slot 19 of player with gray glass named "" to close
+			format slot 20 of player with gray glass named "" to close
+			format slot 21 of player with gray glass named "" to close
+			format slot 22 of player with gray glass named "" to close
+			format slot 23 of player with gray glass named "" to close
+			format slot 24 of player with gray glass named "" to close
+			format slot 25 of player with gray glass named "" to close
+			format slot 26 of player with gray glass named "" to close
+			format slot 27 of player with gray glass named "" to close
+			format slot 29 of player with 35:5 named "&aENALED &8[&bANIMALS&8]" to close then run [make player execute command "/mv modify set animals true %arg 1%"]
+			format slot 31 of player with gray glass named "" to close
+			format slot 33 of player with 35:5 named "&aENALED &8[&bMONSTERSS&8]" to close then run [make player execute command "/mv modify set monsters true %arg 1%"]
+			format slot 35 of player with gray glass named "" to close
+			format slot 36 of player with gray glass named "" to close
+			format slot 37 of player with gray glass named "" to close
+			format slot 38 of player with gray glass named "" to close
+			format slot 39 of player with gray glass named "" to close
+			format slot 40 of player with gray glass named "" to close
+			format slot 41 of player with gray glass named "" to close
+			format slot 42 of player with gray glass named "" to close
+			format slot 43 of player with gray glass named "" to close
+			format slot 44 of player with gray glass named "" to close
+			format slot 45 of player with gray glass named "" to close
+			format slot 47 of player with 35:14 named "&cDISABLE &8[&bANIMALS&8]" to close then run [make player execute command "/mv modify set animals false %arg 1%"]
+			format slot 49 of player with gray glass named "" to close
+			format slot 51 of player with 35:14 named "&cDISABLE &8[&bMONSTERS&8]" to close then run [make player execute command "/mv modify set monsters false %arg 1%"]
+			format slot 53 of player with gray glass named "" to close
+			format slot 54 of player with gray glass named "" to close
+			format slot 55 of player with gray glass named "" to close
+			format slot 56 of player with gray glass named "" to close
+			format slot 57 of player with gray glass named "" to close
+			format slot 58 of player with gray glass named "" to close
+			format slot 59 of player with gray glass named "" to close
+			format slot 60 of player with gray glass named "" to close
+			format slot 61 of player with gray glass named "" to close
+			format slot 62 of player with gray glass named "" to close
+			stop		
+		
+on join:
+	set join message to ""
+	stop
+	
+on quit:
+	set quit message to ""
+	stop		
+			
